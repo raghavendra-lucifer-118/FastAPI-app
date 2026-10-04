@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+  .about-intro h1 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+  .about-intro p  { font-family: 'Nunito', sans-serif; font-size: 1.1rem; max-width: 40rem; }
+
+  .topic-card {
+    border: 1px solid var(--bs-border-color);
+    border-top: 4px solid #527c9f;
+    border-radius: .75rem;
+    background: var(--bs-body-bg);
+    height: 100%;
+  }
+  .topic-card h3 { font-family: 'Montserrat', sans-serif; font-weight: 600; }
+
+  .stack-badge {
+    background: rgba(82, 124, 159, .15);
+    color: var(--bs-body-color);
+    border: 1px solid rgba(82, 124, 159, .4);
+    font-weight: 600;
+    padding: .5rem .85rem;
+    border-radius: 2rem;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, #527c9f 0%, #3a5a78 100%);
+    color: #fff;
+    border-radius: 1rem;
+  }
+</style>
+
+<!-- Intro -->
+<section class="about-intro mb-5">
+  <h1 class="display-6 mb-3">About this blog</h1>
+  <p class="text-body-secondary">
+    This blog is a learning journal. I'm building a real web app with FastAPI,
+    and every post documents what I tried, what broke and what finally worked.
+    If you're new to backend development, you're in the right place.
+  </p>
+</section>
+
+<!-- What we cover -->
+<section class="mb-5">
+  <h2 class="h4 mb-3">What you'll find here</h2>
+  <div class="row g-3">
+    <div class="col-sm-6">
+      <div class="topic-card p-4">
+        <h3 class="h5">API basics</h3>
+        <p class="mb-0 text-body-secondary">Routes, path and query parameters, and how requests turn into responses.</p>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="topic-card p-4">
+        <h3 class="h5">Data validation</h3>
+        <p class="mb-0 text-body-secondary">Pydantic models that check your data before it reaches your code.</p>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="topic-card p-4">
+        <h3 class="h5">Templates and pages</h3>
+        <p class="mb-0 text-body-secondary">Serving HTML with Jinja2 so your backend can render real pages.</p>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="topic-card p-4">
+        <h3 class="h5">Databases</h3>
+        <p class="mb-0 text-body-secondary">Storing and querying data so your app remembers things.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tech stack -->
+<section class="mb-5">
+  <h2 class="h4 mb-3">Built with</h2>
+  <div class="d-flex flex-wrap gap-2">
+    <span class="stack-badge">Python</span>
+    <span class="stack-badge">FastAPI</span>
+    <span class="stack-badge">Jinja2</span>
+    <span class="stack-badge">Bootstrap 5</span>
+    <span class="stack-badge">Uvicorn</span>
+  </div>
+</section>
+
+<!-- Call to action -->
+<section class="cta-box p-4 p-md-5 text-center">
+  <h2 class="h4 mb-2">Ready to start reading?</h2>
+  <p class="mb-4 opacity-75">Head back to the home page for the latest posts.</p>
+  <a href="{{ url_for('home') }}" class="btn btn-light">Go to home</a>
+</section>
+{% endblock content %}

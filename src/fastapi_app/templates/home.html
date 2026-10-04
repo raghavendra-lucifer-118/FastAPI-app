@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+  /* Page-specific styles (uses Bootstrap variables, so dark mode works automatically) */
+  .hero {
+    background: linear-gradient(135deg, #527c9f 0%, #3a5a78 100%);
+    color: #fff;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+  .hero p  { font-family: 'Nunito', sans-serif; opacity: .9; max-width: 34rem; }
+
+  .post-card {
+    border: 1px solid var(--bs-border-color);
+    border-left: 4px solid #527c9f;
+    border-radius: .75rem;
+    background: var(--bs-body-bg);
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .post-card:hover {
+    box-shadow: 0 .5rem 1.25rem rgba(0, 0, 0, .12);
+    transform: translateY(-2px);
+  }
+  .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #527c9f; color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .post-title { font-family: 'Montserrat', sans-serif; font-weight: 600; }
+  @media (prefers-reduced-motion: reduce) {
+    .post-card { transition: none; }
+    .post-card:hover { transform: none; }
+  }
+</style>
+
+<!-- Hero -->
+<section class="hero">
+  <h1 class="display-6 mb-3">Welcome to the FastAPI Blog</h1>
+  <p class="lead mb-4">
+    Notes, experiments and lessons from learning backend development with FastAPI,
+    one endpoint at a time.
+  </p>
+  <a href="{{ url_for("get_all_posts")}}" class="btn btn-light me-2">Read latest posts</a>
+  <a href="{{ url_for('about_app') }}" class="btn btn-outline-light">About this blog</a>
+</section>
+
+<!-- Posts -->
+<h2 id="latest" class="h4 mb-3">Latest posts</h2>
+
+{% if posts %}
+  {% for post in posts %}
+    <article class="post-card p-4 mb-3">
+      <div class="d-flex align-items-center mb-3">
+        <span class="avatar me-3">{{ post.author[0] | upper }}</span>
+        <div>
+          <div class="fw-semibold">{{ post.author }}</div>
+          <small class="text-body-secondary">{{ post.date_posted }}</small>
+        </div>
+      </div>
+      <h3 class="h5 post-title">{{ post.title }}</h3>
+      <p class="mb-0 text-body-secondary">{{ post.content }}</p>
+    </article>
+  {% endfor %}
+{% else %}
+  <div class="text-center py-5 border rounded-3 text-body-secondary">
+    <p class="fs-5 mb-1">No posts yet</p>
+    <p class="mb-0">Add a post to your data and it will show up here.</p>
+  </div>
+{% endif %}
+{% endblock content %}

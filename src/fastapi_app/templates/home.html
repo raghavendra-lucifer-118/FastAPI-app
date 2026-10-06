@@ -1,75 +1,367 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<style>
-  /* Page-specific styles (uses Bootstrap variables, so dark mode works automatically) */
-  .hero {
-    background: linear-gradient(135deg, #527c9f 0%, #3a5a78 100%);
-    color: #fff;
-    border-radius: 1rem;
-    padding: 3rem 2rem;
-    margin-bottom: 2rem;
-  }
-  .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
-  .hero p  { font-family: 'Nunito', sans-serif; opacity: .9; max-width: 34rem; }
 
-  .post-card {
-    border: 1px solid var(--bs-border-color);
-    border-left: 4px solid #527c9f;
-    border-radius: .75rem;
-    background: var(--bs-body-bg);
-    transition: box-shadow .2s ease, transform .2s ease;
-  }
-  .post-card:hover {
-    box-shadow: 0 .5rem 1.25rem rgba(0, 0, 0, .12);
-    transform: translateY(-2px);
-  }
-  .avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: #527c9f; color: #fff;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-weight: 700;
-  }
-  .post-title { font-family: 'Montserrat', sans-serif; font-weight: 600; }
-  @media (prefers-reduced-motion: reduce) {
-    .post-card { transition: none; }
-    .post-card:hover { transform: none; }
-  }
-</style>
+<!-- =========================
+     HERO SECTION
+========================= -->
 
-<!-- Hero -->
-<section class="hero">
-  <h1 class="display-6 mb-3">Welcome to the FastAPI Blog</h1>
-  <p class="lead mb-4">
-    Notes, experiments and lessons from learning backend development with FastAPI,
-    one endpoint at a time.
-  </p>
-  <a href="{{ url_for("get_all_posts")}}" class="btn btn-light me-2">Read latest posts</a>
-  <a href="{{ url_for('about_app') }}" class="btn btn-outline-light">About this blog</a>
+<section class="hero-section pt-3 pb-4">
+
+    <div class="container pt-3 pb-4">
+
+        <div class="row align-items-center">
+
+            <!-- LEFT SIDE -->
+
+            <div class="col-lg-7">
+
+                <span class="badge bg-dark px-3 py-2 mb-4">
+                    ✦ Ideas worth sharing
+                </span>
+
+                <h1 class="display-2 fw-bold mb-4">
+                    Think.
+                    <span class="text-primary">Build.</span>
+                    Share.
+                </h1>
+
+                <p class="lead text-muted mb-4"
+                   style="max-width: 650px;">
+
+                    A place for ideas, stories, lessons, and everything
+                    in between. Read something interesting, learn something
+                    new, and leave a thought of your own.
+
+                </p>
+
+
+                <!-- BUTTONS -->
+
+                <div class="d-flex gap-3 flex-wrap">
+
+                    <a href="{{ url_for('get_all_posts') }}"
+                       class="btn btn-dark btn-lg px-4">
+
+                        Explore Posts →
+
+                    </a>
+
+
+                    <a href="{{ url_for('about_app') }}"
+                       class="btn btn-outline-secondary btn-lg px-4">
+
+                        About the Blog
+
+                    </a>
+
+                </div>
+
+
+                <!-- SMALL STATS -->
+
+                <div class="mt-5 d-flex gap-5 text-muted">
+
+                    <div>
+
+                        <h4 class="fw-bold text-dark mb-0">
+                            ∞
+                        </h4>
+
+                        <small>
+                            Ideas
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <h4 class="fw-bold text-dark mb-0">
+                            01
+                        </h4>
+
+                        <small>
+                            Good place to start
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <h4 class="fw-bold text-dark mb-0">
+                            100%
+                        </h4>
+
+                        <small>
+                            Curiosity
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT FEATURED CARD -->
+
+            <div class="col-lg-5 mt-4 mt-lg-0">
+
+                <div class="p-4 rounded-4 shadow-lg bg-dark text-white">
+
+                    <div class="d-flex
+                                justify-content-between
+                                align-items-center
+                                mb-4">
+
+                        <span class="text-secondary">
+                            FEATURED THOUGHT
+                        </span>
+
+                        <span>
+                            ✦
+                        </span>
+
+                    </div>
+
+
+                    <h2 class="fw-bold mb-3">
+
+                        "The internet is full of information.
+                        The interesting part is what you do with it."
+
+                    </h2>
+
+
+                    <p class="text-secondary mb-4">
+
+                        Thoughts, experiments, failures and small discoveries —
+                        documented along the way.
+
+                    </p>
+
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="rounded-circle bg-primary"
+                             style="width:42px;height:42px;">
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                The Author
+                            </strong>
+
+                            <br>
+
+                            <small class="text-secondary">
+                                Writing from curiosity
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
 
-<!-- Posts -->
-<h2 id="latest" class="h4 mb-3">Latest posts</h2>
 
-{% if posts %}
-  {% for post in posts %}
-    <article class="post-card p-4 mb-3">
-      <div class="d-flex align-items-center mb-3">
-        <span class="avatar me-3">{{ post.author[0] | upper }}</span>
-        <div>
-          <div class="fw-semibold">{{ post.author }}</div>
-          <small class="text-body-secondary">{{ post.date_posted }}</small>
+<!-- =========================
+     LATEST POSTS
+========================= -->
+
+<section id="posts" class="py-5 bg-light">
+
+    <div class="container py-5">
+
+        <div class="d-flex
+                    justify-content-between
+                    align-items-end
+                    mb-5">
+
+            <div>
+
+                <span class="text-primary fw-semibold">
+                    THE LATEST
+                </span>
+
+
+                <h2 class="display-6 fw-bold mt-2">
+                    From the blog
+                </h2>
+
+
+                <p class="text-muted mb-0">
+                    A few things worth reading.
+                </p>
+
+            </div>
+
+
+            <a href="{{ url_for('get_all_posts') }}"
+               class="text-dark
+                      text-decoration-none
+                      fw-semibold
+                      d-none d-md-block">
+
+                View all →
+
+            </a>
+
         </div>
-      </div>
-      <h3 class="h5 post-title">{{ post.title }}</h3>
-      <p class="mb-0 text-body-secondary">{{ post.content }}</p>
-    </article>
-  {% endfor %}
-{% else %}
-  <div class="text-center py-5 border rounded-3 text-body-secondary">
-    <p class="fs-5 mb-1">No posts yet</p>
-    <p class="mb-0">Add a post to your data and it will show up here.</p>
-  </div>
-{% endif %}
-{% endblock content %}
+
+
+        <!-- POST CARDS -->
+
+        <div class="row g-4">
+
+            {% for post in posts %}
+
+            <div class="col-md-6 col-lg-4">
+
+                <article class="card
+                                border-0
+                                shadow-sm
+                                rounded-4
+                                h-100
+                                overflow-hidden">
+
+
+                    <!-- POST HEADER -->
+
+                    <div class="bg-dark
+                                text-white
+                                p-4"
+                         style="height: 170px;">
+
+                        <small class="text-secondary">
+
+                            {{ post.date_posted.strftime('%B %d, %Y') }}
+
+                        </small>
+
+
+                        <h3 class="fw-bold mt-4">
+
+                            {{ post.title }}
+
+                        </h3>
+
+                    </div>
+
+
+                    <!-- POST CONTENT -->
+
+                    <div class="card-body p-4">
+
+                        <p class="text-muted">
+
+                            {{ post.content[:150] }}...
+
+                        </p>
+
+
+                        <a href="/post/{{ post.id }}"
+                           class="text-dark
+                                  fw-semibold
+                                  text-decoration-none">
+
+                            Read article →
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            {% else %}
+
+            <!-- EMPTY STATE -->
+
+            <div class="col-12">
+
+                <div class="text-center py-5">
+
+                    <h3 class="fw-bold">
+                        Nothing here yet.
+                    </h3>
+
+                    <p class="text-muted">
+                        The first story is waiting to be written.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FINAL CTA
+========================= -->
+
+<section class="py-5">
+
+    <div class="container py-5">
+
+        <div class="bg-dark
+                    text-white
+                    rounded-4
+                    p-5
+                    text-center">
+
+
+            <span class="text-secondary">
+                HAVE SOMETHING TO SAY?
+            </span>
+
+
+            <h2 class="display-6 fw-bold mt-3">
+                Every idea starts somewhere.
+            </h2>
+
+
+            <p class="text-secondary mx-auto mt-3"
+               style="max-width: 600px;">
+
+                Read. Question. Experiment. Write.
+                Maybe your next thought becomes someone's favourite post.
+
+            </p>
+
+
+            <a href="/register"
+               class="btn btn-light btn-lg px-4 mt-3">
+
+                Join the conversation →
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

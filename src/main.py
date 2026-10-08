@@ -6,6 +6,22 @@ from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 
+from pydantic import BaseModel , ConfigDict , Field
+from datetime import datetime
+
+class PostBase(BaseModel):
+    title : str = Field(min_length = 1 , max_length = 100)
+    content : str = Field(min_length = 10)
+    author : str = Field(min_length = 5 , max_length = 45)
+
+class PostCreate(PostBase):
+    pass
+
+class PostResponse(PostBase):
+    id : int
+    date_posted : str
+    
+
 
 app = FastAPI()
 templates = Jinja2Templates(directory = "templates")
@@ -69,7 +85,7 @@ def about_app(request : Request):
 
 
 # All posts api and HTML response
-@app.get("/api/posts")
+@app.get("/api/posts" , response_model= list[PostResponse])
 def get_all_posts_api():
     return posts
 
@@ -81,7 +97,7 @@ def get_all_posts(request : Request):
 
 # Single posts api and HTML response
 # JSON Response
-@app.get("/api/posts/{req_id}")
+@app.get("/api/posts/{req_id}" , response_model = PostResponse)
 def get_single_post_api(req_id : int):
     for post in posts:
         if req_id == post.get("id"):
@@ -95,7 +111,22 @@ def get_single_post(request : Request , req_id :int):
             if req_id == post.get("id"):
                 return templates.TemplateResponse(request , "single_post.html" , {"post" : post})
     raise HTTPException(status_code = status.HTTP_404_NOT_FOUND , detail = "Post Not Found")  
-            
+     
+     
+# Create Endpoint for a post
+@app.post("/api/posts")
+def create_post_api(new_req_post : PostCreate):
+    new_id = max(p["id"] for p in posts) + 1 if posts else 1
+    new_post ={
+        "id" : new_id,
+        "title" : new_req_post.title,
+        "content" : new_req_post.content,
+        "author" : new_req_post.author,
+        "date_posted" : "July 22 2005"
+    }  
+    
+    posts.append(new_post)
+    return new_post           
         
             
 ## StarletteHTTPException Handler

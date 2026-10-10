@@ -1,61 +1,28 @@
-from fastapi import FastAPI , Request , HTTPException , status
+from fastapi import FastAPI , Request , HTTPException , status , Depends
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from schemas import PostCreate , PostResponse
+from .schemas import PostResponse , PostCreate , UserCreate , UserResponse
 
+from . import models
+from .database import Base , engine , get_db
+
+Base.metadata.create_all(bind = engine)
+
+
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 app = FastAPI()
 templates = Jinja2Templates(directory = "templates")
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/media", StaticFiles(directory="media"), name="media")
 
-posts: list[dict] = [
-    {
-        "id": 1,
-        "author": "Corey Schafer",
-        "title": "FastAPI is Awesome",
-        "content": "This framework is really easy to use and super fast.",
-        "date_posted": "April 20, 2025",
-    },
-    {
-        "id": 2,
-        "author": "Jane Doe",
-        "title": "Python is Great for Web Development",
-        "content": "Python is a great language for web development, and FastAPI makes it even better.",
-        "date_posted": "April 21, 2025",
-    },
-    {
-        "id": 3,
-        "author": "John Smith",
-        "title": "Building APIs with FastAPI",
-        "content": "FastAPI makes it simple to build modern and reliable APIs with Python.",
-        "date_posted": "April 22, 2025",
-    },
-    {
-        "id": 4,
-        "author": "Alice Johnson",
-        "title": "Learning Python",
-        "content": "Python is beginner-friendly and has many powerful tools for building applications.",
-        "date_posted": "April 23, 2025",
-    },
-    {
-        "id": 5,
-        "author": "Michael Brown",
-        "title": "Why I Like FastAPI",
-        "content": "FastAPI provides great performance while keeping API development simple and clean.",
-        "date_posted": "April 24, 2025",
-    },
-    {
-        "id": 6,
-        "author": "Sarah Wilson",
-        "title": "Modern Web APIs with Python",
-        "content": "With Python and FastAPI, creating modern web APIs can be quick, straightforward, and enjoyable.",
-        "date_posted": "April 25, 2025",
-    },
-]
 
+# Endpoints for users
 
 
 # Home and About HTML Response

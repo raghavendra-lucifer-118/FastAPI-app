@@ -1,13 +1,13 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker , declarative_base
+from sqlalchemy.orm import sessionmaker , DeclarativeBase
 
 db_url = "sqlite:///./blog.db"
 
-engine = create_engine(db_url , connect_args={"check_same_thread" : "False"})
-sessionLocal = sessionmaker(bind = engine , autoflush = False , auto_commit = False)
+engine = create_engine(db_url , connect_args={"check_same_thread" : False})
+sessionLocal = sessionmaker(bind = engine , autoflush = False , autocommit = False)
 
 
-class Base(declarative_base):
+class Base(DeclarativeBase):
     pass
 
 def get_db():
